@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if aq %}
+         <form action="/aq" method="POST">
+             {% csrf_token %}
+          <div class="rounded shadow-sm bg-body-tertiary container mt-3 gap-2" data-bs-theme="auto">
+            <div class="d-flex flex-wrap align-items-center gap-2 p-3 rounded">
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" data-bs-theme="auto" type="button" data-bs-toggle="dropdown" id="languageDropdown">Language
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                    <li><a class="dropdown-item" onclick="selectFilter('language', 'Python')">Python</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('language', 'Java')">Java</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('language', 'JavaScript')">JavaScript</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('language', 'Others')">Others</a></li>
+                </ul>
+              </div>
+
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" data-bs-theme="auto" type="button" data-bs-toggle="dropdown" id="fieldDropdown">Field
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="fieldDropdown">
+                    <li><a class="dropdown-item" onclick="selectFilter('field', 'API')">API</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('field', 'Web')">Web</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('field', 'Backend')">Backed</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('field', 'Full Stack')">Full Stack</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('field', 'Android')">Android</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('field', 'Analyst')">Analyst</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('field', 'AI & ML')">AI & ML</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('field', ''Others)">Others</a></li>
+                </ul>
+              </div>
+
+              <div class="dropdown">
+                <button class="btn dropdown-toggle" data-bs-theme="auto" type="button" data-bs-toggle="dropdown" id="timeDropdown">Made
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="timeDropdown">
+                    <li><a class="dropdown-item" onclick="selectFilter('time', 'Recent')">Recent</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('time', 'Past Month')">Past Month</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('time', 'Past Year')">Past Year</a></li>
+                    <li><a class="dropdown-item" onclick="selectFilter('time', 'All Time')">All Time</a></li>
+                </ul>
+              </div>
+
+              <input type="hidden" name="language" id="languageInput">
+              <input type="hidden" name="field" id="fieldInput">
+              <input type="hidden" name="time" id="timeInput">
+
+
+              <input type="text" class="form-control w-auto me-3 bg-secondary border-0"
+                     name="query" placeholder="Skills...." style="min-width: 200px;">
+              <button type="submit" class="btn btn-primary ms-3">Search</button>
+
+              <a href="{% url 'Home' %}" class="ms-auto me-2 nav-link" style="font-size: 0.85rem;">X</a>
+
+            </div>
+          </div>
+        </form>
+    {% else %}
+        <div class="d-flex align-items-center gap-2">
+            <a href="{% url 'Advance' %}" class="ms-auto me-2 nav-link" style="font-size: 0.65rem;">Advanced Search</a>
+        </div>
+    {% endif %}
+
+    <div class="row row-cols-1 row-cols-md-2 g-4 mx-1 mt-1">
+            {% for project in projects %}
+                <div class="col">
+                    <div class="card shadow-sm h-100 border-0 rounded-4 overflow-hidden">
+                        <img src="{{project.image.url}}"
+                             class="card-img-top object-fit-cover"
+                             alt="{{ project.title }}"
+                             style="height: 200px;"
+                            onerror="this.src='/static/images/default.jpg';">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'Project' project.id %}" class="text-decoration-none text-primary">
+                                    {{ project.title }}
+                                </a>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                 {{ project.language }} | {{ project.field }} • {{ project.created|timesince }} ago
+                            </h6>
+                            <p class="card-text mt-3">
+                                {{ project.desc|truncatewords:20 }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+    </div>
+{% endblock %}

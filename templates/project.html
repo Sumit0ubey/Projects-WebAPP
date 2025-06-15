@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="card shadow-lg border-0 rounded-4 my-4 mx-auto mx-2" style="max-width: 800px;">
+
+  <img src="{{project.image.url}}" alt="Project Preview" class="img-fluid rounded shadow-sm"
+    style="max-height: 300px; object-fit: cover;" onerror="this.src='/static/images/default.jpg';"/>
+
+    <div class="card-body bg-body text-body">
+
+      <h2 class="card-title fw-bold text-primary-emphasis">{{ project.title }}</h2>
+
+      <div class="row row-cols-1 row-cols-sm-2 mt-4 g-2">
+        <div class="col">
+          <div class="bg-secondary-subtle rounded p-2">
+            <strong>Language:</strong> {{ project.language }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="bg-secondary-subtle rounded p-2">
+            <strong>Field:</strong> {{ project.field }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="bg-secondary-subtle rounded p-2">
+            <strong>Framework:</strong> {{ project.framework }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="bg-secondary-subtle rounded p-2">
+            <strong>Created Date:</strong> {{ project.created|date:"j M Y" }}
+          </div>
+        </div>
+      </div>
+
+      <p class="card-text mt-3 fs-6">{{ project.desc|linebreaksbr }}</p>
+
+      <div class="col">
+          <div class="bg-secondary-subtle rounded p-2">
+            <strong>Skills:</strong> {{ project.skills }}
+          </div>
+        </div>
+
+      <div class="ratio ratio-16x9 my-4">
+        <iframe src="https://www.youtube.com/embed/{{ project.youtube_id }}" title="YouTube video" allowfullscreen class="rounded-3 border"></iframe>
+      </div>
+
+      <div class="d-flex flex-wrap justify-content-between gap-2 mt-3">
+        <a href="{{ project.github_link }}" class="btn btn-primary flex-fill" target="_blank">
+          <i class="bi bi-github me-1"></i> GitHub
+        </a>
+        <a href="{{ project.live_link }}" class="btn btn-primary flex-fill" target="_blank">
+          <i class="bi bi-box-arrow-up-right me-1"></i> Live Project
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
